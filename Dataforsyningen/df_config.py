@@ -12,6 +12,7 @@ from qgis.PyQt.QtCore import (
     QUrl,
     QIODevice,
 )
+from qgis.PyQt.QtNetwork import QNetworkReply
 from qgis.PyQt import QtCore
 from .qlr_file import QlrFile
 
@@ -74,13 +75,14 @@ class DfConfig(QtCore.QObject):
     def _handle_services_response(self):
         network_reply = self._services_network_fetcher.reply()
 
-        if network_reply.error():
+        if network_reply.error() != QNetworkReply.NetworkError.NoError:
             self.background_category = None
             self.categories = []
             self.df_con_error.emit()
             log_message(
                 f"Network error getting services from df. Error code : "
                 + str(network_reply.error())
+                + f" ({network_reply.errorString()})"
             )
             return
         response = str(network_reply.readAll(), "utf-8")
@@ -119,12 +121,13 @@ class DfConfig(QtCore.QObject):
     def _handle_qlr_response(self):
         network_reply = self._qlr_network_fetcher.reply()
 
-        if network_reply.error():
+        if network_reply.error() != QNetworkReply.NetworkError.NoError:
             log_message(
                 "No contact to the configuration at "
                 + self.settings.value("df_qlr_url")
                 + ". Error code : "
                 + str(network_reply.error())
+                + f" ({network_reply.errorString()})"
             )
         else:
             response = str(network_reply.readAll(), "utf-8")
@@ -178,7 +181,7 @@ class DfConfig(QtCore.QObject):
     def _read_cached_df_qlr(self):
         # return file(unicode(self.cached_df_qlr_filename)).read()
         f = QFile(self.cached_df_qlr_filename)
-        f.open(QIODevice.ReadOnly)
+        f.open(QIODevice.OpenModeFlag.ReadOnly)
         return f.readAll()
 
     def write_cached_df_qlr(self, contents):

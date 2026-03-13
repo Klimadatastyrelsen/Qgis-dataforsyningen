@@ -31,7 +31,7 @@ class LocalConfig(object):
 
     def read_local_qlr(self):
         f = QFile(self.local_qlr_filename)
-        f.open(QIODevice.ReadOnly)
+        f.open(QIODevice.OpenModeFlag.ReadOnly)
         return f.readAll()
 
     def get_local_categories(self):

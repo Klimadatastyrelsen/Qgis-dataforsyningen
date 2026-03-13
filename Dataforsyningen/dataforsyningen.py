@@ -23,7 +23,7 @@
 
 import os.path
 import datetime
-from PyQt5.QtGui import QDesktopServices
+from qgis.PyQt.QtGui import QDesktopServices
 from qgis.core import *
 from qgis.PyQt.QtCore import (
     QCoreApplication,
@@ -112,7 +112,7 @@ class Dataforsyningen(object):
         self.show_messagebar_linked_to_settings(title, message)
 
     def show_messagebar_linked_to_settings(
-        self, title, message, level=Qgis.Warning, duration=15
+        self, title, message, level=Qgis.MessageLevel.Warning, duration=15
     ):
         button_text = self.tr("Open settings")
         widget = self.iface.messageBar().createMessage(title, message)
