@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
-from PyQt5 import QtGui, uic
-from PyQt5.QtWidgets import QFileDialog
+from qgis.PyQt import uic
+from qgis.PyQt.QtWidgets import QFileDialog
 from qgis.gui import (QgsOptionsPageWidget)
 from qgis.PyQt.QtWidgets import  QVBoxLayout
 from .qgissettingmanager import *

@@ -10,8 +10,8 @@
 
 [general]
 name=Dataforsyningen
-qgisMinimumVersion=3.00
-qgisMaximumVersion=3.99
+qgisMinimumVersion=3.20
+qgisMaximumVersion=4.99
 description=Let adgang til data fra Dataforsyningen (Klimadatastyrelsen) i QGIS.
     Easy access to webservices from Dataforsyningen (Agency for Climate Data) in QGIS.
 version=0.7

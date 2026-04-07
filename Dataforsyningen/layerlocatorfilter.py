@@ -23,13 +23,13 @@ class LayerLocatorFilter(QgsLocatorFilter):
         return self.tr("Dataforsyningen")
 
     def priority(self):
-        return QgsLocatorFilter.Low
+        return QgsLocatorFilter.Priority.Low
 
     def prefix(self):
         return "dataforsyningen"
 
     def flags(self):
-        return QgsLocatorFilter.FlagFast
+        return QgsLocatorFilter.Flag.FlagFast
 
     def fetchResults(self, query, context, feedback):
         matching_layers = self.data.get_matching_layers(query)

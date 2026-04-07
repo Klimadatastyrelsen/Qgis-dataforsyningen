@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-from PyQt5.QtCore import QFileInfo, QObject
+from qgis.PyQt.QtCore import QFileInfo, QObject
 from qgis.PyQt import QtCore
 
 from qgis.utils import active_plugins

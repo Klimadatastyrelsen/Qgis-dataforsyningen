@@ -22,8 +22,8 @@
 """
 
 import os
-from PyQt5 import uic
-from PyQt5.QtWidgets import QDialog
+from qgis.PyQt import uic
+from qgis.PyQt.QtWidgets import QDialog
 
 FORM_CLASS, _ = uic.loadUiType(
     os.path.join(os.path.dirname(__file__), "aboutDataforsyningen.ui")
