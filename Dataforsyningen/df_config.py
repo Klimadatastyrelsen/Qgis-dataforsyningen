@@ -50,7 +50,9 @@ class DfConfig(QtCore.QObject):
     def begin_load(self):
         self.cached_df_qlr_filename = (
             self.settings.value("cache_path")
-            + hashlib.md5(self.settings.value("token").encode()).hexdigest()
+            + hashlib.md5(
+                self.settings.value("dataforsyningen_token").encode()
+            ).hexdigest()
             + "_dataforsyning_data.qlr"
         )
         self.allowed_df_services = {}
@@ -95,7 +97,7 @@ class DfConfig(QtCore.QObject):
         if not allowed["any_type"]["services"]:
             self.df_con_error.emit()
             log_message(
-                f"Dataforsyningen returned an empty list of allowed services for token: {self.settings.value('token')}"
+                f"Dataforsyningen returned an empty list of allowed services for token: {self.settings.value('dataforsyningen_token')}"
             )
         # Go on and get QLR
         self._get_qlr_file()
@@ -219,7 +221,7 @@ class DfConfig(QtCore.QObject):
     def insert_token(self, text):
         result = text
         replace_vars = {}
-        replace_vars["df_token"] = self.settings.value("token")
+        replace_vars["df_token"] = self.settings.value("dataforsyningen_token")
         for i, j in replace_vars.items():
             result = result.replace("{{" + str(i) + "}}", str(j))
         return result

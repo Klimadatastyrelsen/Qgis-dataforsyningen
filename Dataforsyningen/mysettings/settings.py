@@ -16,7 +16,7 @@ class Settings(SettingManager):
 
     def __init__(self):
         SettingManager.__init__(self, "Dataforsyningen")
-        self.add_setting(String("token", Scope.Global, ""))
+        self.add_setting(String("dataforsyningen_token", Scope.Global, ""))
         self.add_setting(Bool("use_custom_file", Scope.Global, False))
         self.add_setting(String("custom_qlr_file", Scope.Global, ""))
         self.add_setting(Bool("only_background", Scope.Global, False))
@@ -30,7 +30,7 @@ class Settings(SettingManager):
 
     def is_set(self):
         is_set = False
-        if self.value("token"):
+        if self.value("dataforsyningen_token"):
             is_set = True
         elif (
             "Kortforsyningen" in active_plugins

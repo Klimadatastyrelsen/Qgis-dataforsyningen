@@ -84,7 +84,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
-              <widget class="QLineEdit" name="token">
+              <widget class="QLineEdit" name="dataforsyningen_token">
                <property name="text">
                 <string/>
                </property>
