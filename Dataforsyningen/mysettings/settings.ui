@@ -80,7 +80,7 @@
           <item>
            <widget class="QGroupBox" name="groupBox">
             <property name="title">
-             <string>Token</string>
+             <string>Dataforsyningen token</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
@@ -97,6 +97,35 @@
               <widget class="QLabel" name="label">
                <property name="text">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://dataforsyningen.dk/&quot;&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Find your token to Dataforsyningen&lt;/span&gt;&lt;/a&gt; or &lt;a href=&quot;https://dataforsyningen.dk/&quot;&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;create a new token&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Not registered as a user at Dataforsyningen? &lt;a href=&quot;https://dataforsyningen.dk/&quot;&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;Create user &lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="openExternalLinks">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Datafordeleren token</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QLineEdit" name="token">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="placeholderText">
+                <string>Enter token to Datafordeleren</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Get a token at &lt;a href="https://datafordeleren.dk"&gt;https://datafordeleren.dk&lt;/a&gt;</string>
                </property>
                <property name="openExternalLinks">
                 <bool>true</bool>
