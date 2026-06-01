@@ -52,7 +52,7 @@ class DfConfig(QtCore.QObject):
             + "_dataforsyning_data.qlr"
         )
         self.allowed_df_services = {}
-        if self.settings.is_set():
+        if self.settings.dataforsyningen_set():
             try:
                 self._request_services()
             except Exception as e:
