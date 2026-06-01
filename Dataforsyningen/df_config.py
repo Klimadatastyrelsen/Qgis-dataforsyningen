@@ -1,5 +1,4 @@
 from builtins import str
-import codecs
 import os
 import datetime
 import traceback
@@ -17,9 +16,7 @@ from qgis.PyQt import QtCore
 from .qlr_file import QlrFile
 
 FILE_MAX_AGE = datetime.timedelta(hours=12)
-DF_SERVICES_URL = (
-    "https://api.dataforsyningen.dk/userpermissions/{{df_token}}"
-)
+DF_SERVICES_URL = "https://api.dataforsyningen.dk/userpermissions/{{df_token}}"
 
 
 def log_message(message):
@@ -27,7 +24,6 @@ def log_message(message):
 
 
 class DfConfig(QtCore.QObject):
-
     df_con_error = QtCore.pyqtSignal()
     df_settings_warning = QtCore.pyqtSignal()
     loaded = QtCore.pyqtSignal()
@@ -195,7 +191,7 @@ class DfConfig(QtCore.QObject):
             os.remove(filename)
 
         # Write new version
-        with open(self.cached_df_qlr_filename, "w", "utf-8") as f:
+        with open(self.cached_df_qlr_filename, "w", encoding="utf-8") as f:
             f.write(contents)
 
     def debug_write_allowed_services(self):
@@ -207,7 +203,7 @@ class DfConfig(QtCore.QObject):
             )
             if os.path.exists(debug_filename):
                 os.remove(debug_filename)
-            with open(debug_filename, "w", "utf-8") as f:
+            with open(debug_filename, "w", encoding="utf-8") as f:
                 f.write(
                     json.dumps(
                         self.allowed_df_services["any_type"]["services"], indent=2
