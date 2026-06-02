@@ -88,7 +88,14 @@ class DfConfig(QtCore.QObject):
         allowed = {}
         allowed["any_type"] = {"services": []}
         for i in doc:
-            allowed["any_type"]["services"].append(i["name"])
+            # Datafordeler endpoints is shown if there's a apikey added
+            if i["name"].endswith("_DAF") and self.settings.value(
+                "datafordeler_apikey"
+            ):
+                allowed["any_type"]["services"].append(i["name"].removesuffix("_DAF"))
+            # Dataforsyningen endpoints is shown based on call to allowed services
+            else:
+                allowed["any_type"]["services"].append(i["name"])
         self.allowed_df_services = allowed
         if not allowed["any_type"]["services"]:
             self.df_con_error.emit()
