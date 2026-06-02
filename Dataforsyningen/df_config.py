@@ -79,8 +79,7 @@ class DfConfig(QtCore.QObject):
             self.df_con_error.emit()
             log_message(
                 f"Network error getting services from df. Error code : "
-                + str(network_reply.error())
-                + f" ({network_reply.errorString()})"
+                f"{network_reply.error()} ({network_reply.errorString()})"
             )
             return
         response = str(network_reply.readAll(), "utf-8")
