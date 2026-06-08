@@ -136,6 +136,7 @@ class DfConfig(QtCore.QObject):
         else:
             response = str(network_reply.readAll(), "utf-8")
             response = self.insert_token(response)
+            response = self.insert_apikey(response)
             self.write_cached_df_qlr(response)
         # Now load and use it
         self._load_config_from_cached_df_qlr()
@@ -224,6 +225,14 @@ class DfConfig(QtCore.QObject):
         result = text
         replace_vars = {}
         replace_vars["df_token"] = self.settings.value("dataforsyningen_token")
+        for i, j in replace_vars.items():
+            result = result.replace("{{" + str(i) + "}}", str(j))
+        return result
+
+    def insert_apikey(self, text):
+        result = text
+        replace_vars = {}
+        replace_vars["datafordeler_apikey"] = self.settings.value("datafordeler_apikey")
         for i, j in replace_vars.items():
             result = result.replace("{{" + str(i) + "}}", str(j))
         return result
