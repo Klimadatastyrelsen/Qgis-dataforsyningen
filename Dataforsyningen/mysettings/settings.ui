@@ -109,7 +109,7 @@
           <item>
            <widget class="QGroupBox" name="groupBox">
             <property name="title">
-             <string>Datafordeler token</string>
+             <string>Datafordeler API-key</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
@@ -118,14 +118,14 @@
                 <string/>
                </property>
                <property name="placeholderText">
-                <string>Enter token to Datafordeler</string>
+                <string>Enter API-key to Datafordeler</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QLabel" name="label">
                <property name="text">
-                <string>Get a token at &lt;a href="https://portal.datafordeler.dk"&gt;https://portal.datafordeler.dk&lt;/a&gt;</string>
+                <string>Get a API-key at &lt;a href="https://portal.datafordeler.dk"&gt;https://portal.datafordeler.dk&lt;/a&gt;</string>
                </property>
                <property name="openExternalLinks">
                 <bool>true</bool>
