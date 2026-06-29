@@ -155,7 +155,12 @@ class DfConfig(QtCore.QObject):
         for group in groups_with_layers:
             df_category = {"name": group["name"], "selectables": []}
             for layer in group["layers"]:
-                if self.user_has_access(layer["service"]):
+                # Get Datafordeler categories if apikey is set or
+                # check if user has access to Dataforsyningen service
+                if (
+                    self.settings.value("datafordeler_apikey")
+                    and "datafordeler" in layer["provider"]
+                ) or self.user_has_access(layer["service"]):
                     df_category["selectables"].append(
                         {
                             "type": "layer",
