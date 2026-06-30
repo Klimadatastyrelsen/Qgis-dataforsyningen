@@ -60,6 +60,8 @@ class DfConfig(QtCore.QObject):
                 self.df_con_error.emit()
                 self.background_category = None
                 self.categories = []
+            if not self.settings.datafordeler_set():
+                self.df_settings_warning.emit()
             self.debug_write_allowed_services()
         else:
             self.df_settings_warning.emit()
