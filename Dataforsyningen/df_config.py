@@ -52,7 +52,7 @@ class DfConfig(QtCore.QObject):
             + "_dataforsyning_data.qlr"
         )
         self.allowed_df_services = {}
-        if self.settings.dataforsyningen_set():
+        if self.settings.is_dataforsyningen_token_set():
             try:
                 self._request_services()
             except Exception as e:
@@ -60,7 +60,7 @@ class DfConfig(QtCore.QObject):
                 self.df_con_error.emit()
                 self.background_category = None
                 self.categories = []
-            if not self.settings.datafordeler_set():
+            if not self.settings.is_datafordeler_apikey_set():
                 self.df_settings_warning.emit()
             self.debug_write_allowed_services()
         else:

@@ -27,7 +27,7 @@ class Settings(SettingManager):
         self.add_setting(String("cache_path", Scope.Global, df_path))
         self.add_setting(String("df_qlr_url", Scope.Global, CONFIG_FILE_URL))
 
-    def dataforsyningen_set(self):
+    def is_dataforsyningen_token_set(self):
         dataforsyningen_set = False
         if self.value("dataforsyningen_token"):
             dataforsyningen_set = True
@@ -42,7 +42,7 @@ class Settings(SettingManager):
 
         return dataforsyningen_set
 
-    def datafordeler_set(self):
+    def is_datafordeler_apikey_set(self):
         datafordeler_set = False
         if self.value("datafordeler_apikey"):
             datafordeler_set = True
