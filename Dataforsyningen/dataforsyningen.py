@@ -107,9 +107,7 @@ class Dataforsyningen(object):
     def show_df_settings_warning(self):
         title = self.tr("Dataforsyningen")
 
-        message = self.tr(
-            "Dataforsyningen token or Datafordeler API-key not set or wrong"
-        )
+        message = self.tr("Token or Datafordeler API-key not set or wrong")
         log_message(message)
         self.show_messagebar_linked_to_settings(title, message)
 
