@@ -1,5 +1,4 @@
 from builtins import str
-import codecs
 import os
 import datetime
 import traceback
@@ -17,9 +16,7 @@ from qgis.PyQt import QtCore
 from .qlr_file import QlrFile
 
 FILE_MAX_AGE = datetime.timedelta(hours=12)
-DF_SERVICES_URL = (
-    "https://api.dataforsyningen.dk/userpermissions/{{df_token}}"
-)
+DF_SERVICES_URL = "https://api.dataforsyningen.dk/userpermissions/{{df_token}}"
 
 
 def log_message(message):
@@ -27,7 +24,6 @@ def log_message(message):
 
 
 class DfConfig(QtCore.QObject):
-
     df_con_error = QtCore.pyqtSignal()
     df_settings_warning = QtCore.pyqtSignal()
     loaded = QtCore.pyqtSignal()
@@ -50,11 +46,13 @@ class DfConfig(QtCore.QObject):
     def begin_load(self):
         self.cached_df_qlr_filename = (
             self.settings.value("cache_path")
-            + hashlib.md5(self.settings.value("token").encode()).hexdigest()
+            + hashlib.md5(
+                self.settings.value("dataforsyningen_token").encode()
+            ).hexdigest()
             + "_dataforsyning_data.qlr"
         )
         self.allowed_df_services = {}
-        if self.settings.is_set():
+        if self.settings.is_dataforsyningen_token_set():
             try:
                 self._request_services()
             except Exception as e:
@@ -62,6 +60,8 @@ class DfConfig(QtCore.QObject):
                 self.df_con_error.emit()
                 self.background_category = None
                 self.categories = []
+            if not self.settings.is_datafordeler_apikey_set():
+                self.df_settings_warning.emit()
             self.debug_write_allowed_services()
         else:
             self.df_settings_warning.emit()
@@ -81,8 +81,7 @@ class DfConfig(QtCore.QObject):
             self.df_con_error.emit()
             log_message(
                 f"Network error getting services from df. Error code : "
-                + str(network_reply.error())
-                + f" ({network_reply.errorString()})"
+                f"{network_reply.error()} ({network_reply.errorString()})"
             )
             return
         response = str(network_reply.readAll(), "utf-8")
@@ -95,7 +94,7 @@ class DfConfig(QtCore.QObject):
         if not allowed["any_type"]["services"]:
             self.df_con_error.emit()
             log_message(
-                f"Dataforsyningen returned an empty list of allowed services for token: {self.settings.value('token')}"
+                f"Dataforsyningen returned an empty list of allowed services for token: {self.settings.value('dataforsyningen_token')}"
             )
         # Go on and get QLR
         self._get_qlr_file()
@@ -132,6 +131,7 @@ class DfConfig(QtCore.QObject):
         else:
             response = str(network_reply.readAll(), "utf-8")
             response = self.insert_token(response)
+            response = self.insert_apikey(response)
             self.write_cached_df_qlr(response)
         # Now load and use it
         self._load_config_from_cached_df_qlr()
@@ -157,7 +157,12 @@ class DfConfig(QtCore.QObject):
         for group in groups_with_layers:
             df_category = {"name": group["name"], "selectables": []}
             for layer in group["layers"]:
-                if self.user_has_access(layer["service"]):
+                # Get Datafordeler categories if apikey is set or
+                # check if user has access to Dataforsyningen service
+                if (
+                    self.settings.value("datafordeler_apikey")
+                    and "datafordeler" in layer["provider"]
+                ) or self.user_has_access(layer["service"]):
                     df_category["selectables"].append(
                         {
                             "type": "layer",
@@ -193,7 +198,7 @@ class DfConfig(QtCore.QObject):
             os.remove(filename)
 
         # Write new version
-        with codecs.open(self.cached_df_qlr_filename, "w", "utf-8") as f:
+        with open(self.cached_df_qlr_filename, "w", encoding="utf-8") as f:
             f.write(contents)
 
     def debug_write_allowed_services(self):
@@ -205,7 +210,7 @@ class DfConfig(QtCore.QObject):
             )
             if os.path.exists(debug_filename):
                 os.remove(debug_filename)
-            with codecs.open(debug_filename, "w", "utf-8") as f:
+            with open(debug_filename, "w", encoding="utf-8") as f:
                 f.write(
                     json.dumps(
                         self.allowed_df_services["any_type"]["services"], indent=2
@@ -217,9 +222,9 @@ class DfConfig(QtCore.QObject):
             pass
 
     def insert_token(self, text):
-        result = text
-        replace_vars = {}
-        replace_vars["df_token"] = self.settings.value("token")
-        for i, j in replace_vars.items():
-            result = result.replace("{{" + str(i) + "}}", str(j))
-        return result
+        token = self.settings.value("dataforsyningen_token")
+        return text.replace("{{df_token}}", str(token))
+
+    def insert_apikey(self, text):
+        token = self.settings.value("datafordeler_apikey")
+        return text.replace("{{datafordeler_apikey}}", str(token))
