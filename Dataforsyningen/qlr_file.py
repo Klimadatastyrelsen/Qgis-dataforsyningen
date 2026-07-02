@@ -48,8 +48,11 @@ class QlrFile(object):
                     wms_url = params["url"][0]
                     layer_provider = urllib.parse.urlparse(wms_url).netloc
                 else:
-                    # Handle case where 'url' parameter is missing
+                    # Handle case where 'url' parameter is missing from source
                     layer_provider = urllib.parse.urlparse(layer_source)
+                    layer_provider = urllib.parse.urlparse(
+                        layer_provider.path.split("url='")[1].split("'")[0]
+                    ).netloc
 
                 maplayer_node = self.get_maplayer_node(layer_id)
                 if maplayer_node:
