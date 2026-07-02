@@ -88,7 +88,7 @@ class QlrFile(object):
                 url_only = url_part[from_ix:]
                 url_path = urllib.parse.urlparse(url_only).path
                 url_path = url_path[1:]
-                url_split = url_path.split("/")
+                url_split = url_path.lstrip("https://").split("/")
                 # i.e. base_url/service/
                 if len(url_split) < 2:
                     service = url_path
