@@ -222,17 +222,9 @@ class DfConfig(QtCore.QObject):
             pass
 
     def insert_token(self, text):
-        result = text
-        replace_vars = {}
-        replace_vars["df_token"] = self.settings.value("dataforsyningen_token")
-        for i, j in replace_vars.items():
-            result = result.replace("{{" + str(i) + "}}", str(j))
-        return result
+        token = self.settings.value("dataforsyningen_token")
+        return text.replace("{{df_token}}", str(token))
 
     def insert_apikey(self, text):
-        result = text
-        replace_vars = {}
-        replace_vars["datafordeler_apikey"] = self.settings.value("datafordeler_apikey")
-        for i, j in replace_vars.items():
-            result = result.replace("{{" + str(i) + "}}", str(j))
-        return result
+        token = self.settings.value("datafordeler_apikey")
+        return text.replace("{{datafordeler_apikey}}", str(token))
