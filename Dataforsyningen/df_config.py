@@ -47,7 +47,8 @@ class DfConfig(QtCore.QObject):
         self.cached_df_qlr_filename = (
             self.settings.value("cache_path")
             + hashlib.md5(
-                self.settings.value("dataforsyningen_token").encode()
+                self.settings.value("dataforsyningen_token").encode(),
+                usedforsecurity=False,
             ).hexdigest()
             + "_dataforsyning_data.qlr"
         )
