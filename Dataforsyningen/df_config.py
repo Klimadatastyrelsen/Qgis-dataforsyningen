@@ -11,7 +11,7 @@ from qgis.PyQt.QtCore import (
     QUrl,
     QIODevice,
 )
-from qgis.PyQt.QtNetwork import QNetworkReply
+from qgis.PyQt.QtNetwork import QNetworkReply, QNetworkRequest
 from qgis.PyQt import QtCore
 from .qlr_file import QlrFile
 
@@ -71,7 +71,10 @@ class DfConfig(QtCore.QObject):
 
     def _request_services(self):
         url_to_get = self.insert_token(DF_SERVICES_URL)
-        self._services_network_fetcher.fetchContent(QUrl(url_to_get))
+        request = QNetworkRequest(QUrl(url_to_get))
+        # Bug in gateway returns gzip with wrong CRC32 ISIZE footer causes plugin to fail hard
+        request.setRawHeader(b"Accept-Encoding", b"identity")
+        self._services_network_fetcher.fetchContent(request)
 
     def _handle_services_response(self):
         network_reply = self._services_network_fetcher.reply()
