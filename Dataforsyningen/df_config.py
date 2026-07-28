@@ -207,23 +207,18 @@ class DfConfig(QtCore.QObject):
 
     def debug_write_allowed_services(self):
         try:
-            debug_filename = (
-                self.settings.value("cache_path")
-                + self.settings.value("username")
-                + ".txt"
-            )
-            if os.path.exists(debug_filename):
-                os.remove(debug_filename)
+            cache_path = self.settings.value("cache_path")
+            username = self.settings.value("username")
+
+            debug_filename = os.path.join(cache_path, f"{username}.txt")
+
+            services = self.allowed_df_services.get("any_type", {}).get("services", [])
+
             with open(debug_filename, "w", encoding="utf-8") as f:
-                f.write(
-                    json.dumps(
-                        self.allowed_df_services["any_type"]["services"], indent=2
-                    )
-                    .replace("[", "")
-                    .replace("]", "")
-                )
-        except Exception:
-            pass
+                json.dump(services, f, indent=2)
+
+        except Exception as e:
+            log_message("Error writing allowed services file")
 
     def insert_token(self, text):
         token = self.settings.value("dataforsyningen_token")

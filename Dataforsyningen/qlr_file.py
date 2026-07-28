@@ -1,16 +1,19 @@
 import urllib.parse
-import urllib.error
 from qgis.PyQt import QtXml
 from qgis.core import QgsMessageLog
 
 
+def log_message(message):
+    QgsMessageLog.logMessage(message, "Dataforsyningen plugin")
+
+
 class QlrFile(object):
     def __init__(self, xml):
-        try:
-            self.doc = QtXml.QDomDocument()
-            self.doc.setContent(xml)
-        except Exception:
-            pass
+        self.doc = QtXml.QDomDocument()
+        contentSet = self.doc.setContent(xml)
+
+        if not contentSet:
+            log_message("Failed to parse XML content")
 
     def get_groups_with_layers(self):
         # result: [{'name': groupName, 'layers': [{'name': layerName, 'id': layerId}]}]
@@ -82,7 +85,6 @@ class QlrFile(object):
                 if part.startswith("url"):
                     url_part = part
 
-            # QgsMessageLog.logMessage(url_part, "Debug Log")
             if url_part:
                 from_ix = url_part.index("=") + 1
                 url_only = url_part[from_ix:]
