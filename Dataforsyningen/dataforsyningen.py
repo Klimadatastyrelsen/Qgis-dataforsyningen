@@ -218,13 +218,6 @@ class Dataforsyningen(object):
         return None
 
     def about_dialog(self):
-        lang = ""
-        try:
-            locale = QSettings().value("locale/userLocale")
-            if locale != None:
-                lang = "#" + locale[:2]
-        except:
-            pass
         QDesktopServices.openUrl(QUrl(ABOUT_FILE_URL))
 
     def unload(self):
