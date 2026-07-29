@@ -63,7 +63,6 @@ class DfConfig(QtCore.QObject):
                 self.categories = []
             if not self.settings.is_datafordeler_apikey_set():
                 self.df_settings_warning.emit()
-            self.debug_write_allowed_services()
         else:
             self.df_settings_warning.emit()
             self.background_category = None
@@ -204,21 +203,6 @@ class DfConfig(QtCore.QObject):
         # Write new version
         with open(self.cached_df_qlr_filename, "w", encoding="utf-8") as f:
             f.write(contents)
-
-    def debug_write_allowed_services(self):
-        try:
-            cache_path = self.settings.value("cache_path")
-            username = self.settings.value("username")
-
-            debug_filename = os.path.join(cache_path, f"{username}.txt")
-
-            services = self.allowed_df_services.get("any_type", {}).get("services", [])
-
-            with open(debug_filename, "w", encoding="utf-8") as f:
-                json.dump(services, f, indent=2)
-
-        except Exception as e:
-            log_message("Error writing allowed services file")
 
     def insert_token(self, text):
         token = self.settings.value("dataforsyningen_token")

@@ -56,7 +56,7 @@ about=See english version below.
 
 # Uncomment the following line and add your changelog:
 changelog:
-    2026-07-28: version 0.9.2, remove unused code, and do not hide errors using except: pass
+    2026-07-28: version 0.9.2, remove unused code, do not hide errors using except: pass
     2026-07-28: version 0.9.1, call permission check response without transformation
     2026-06-30: version 0.9, add support for datafordeler endpoint using API-key, replace deprecated codecs.open with open
     2026-03-07: version 0.8, support for QGIS 4, added network check, new contact email
